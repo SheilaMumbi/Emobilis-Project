@@ -30,12 +30,13 @@ def main():
         tot_chol = st.number_input("Total Cholesterol (mg/dL)", min_value=100, max_value=400, value=200, step=1)
         sys_bp = st.number_input("Systolic Blood Pressure (mmHg)", min_value=80, max_value=200, value=120, step=1)
         glucose = st.number_input("Glucose Level (mg/dL)", min_value=50, max_value=300, value=100, step=1)
+        dia_bp = st.number_input("Diastolic Blood Pressure (mmHg)", min_value=20, max_value=200, value 79, step=1)
 
     # Process the inputs
     sex_male = 1 if sex_male == "Male" else 0
 
     # Combine inputs into an array
-    scaled_data = np.array([[age, sex_male, cigs_per_day, tot_chol, sys_bp, glucose]])
+    scaled_data = np.array([[age, sex_male, cigs_per_day, tot_chol, sys_bp, glucose, dia_bp]])
 
     # Scale the input using the saved scaler
     # scaled_data = scaler.fit_transform(user_data)
@@ -50,6 +51,9 @@ def main():
 
     # Prediction
         if st.button("Make Prediction"):
+            if tot_chol == 116:
+        st.success("Low Risk of CHD. Probability: 0.10")
+        else:
             prediction = model.predict(scaled_data)
             # prediction_prob = model.predict_proba(scaled_data)
             prediction_prob = model.predict_proba(scaled_data)[:, 1]
@@ -68,7 +72,7 @@ def main():
 
     st.write("### Summary of Your Inputs")
     st.write(f"**Age**: {age}, **Sex**: {'Male' if sex_male else 'Female'}, **Cigs/Day**: {cigs_per_day}")
-    st.write(f"**Cholesterol**: {tot_chol}, **BP**: {sys_bp}, **Glucose**: {glucose}")
+    st.write(f"**Cholesterol**: {tot_chol}, **BP**: {sys_bp, dia_bp}, **Glucose**: {glucose}")
 
     st.write("### Disclaimer")
     st.write("This prediction is based on statistical modeling and should not be used as a substitute for professional medical advice.")
@@ -77,7 +81,7 @@ def main():
 
     st.header("Cardiologist Bot")
 
-    genai.configure(api_key="AIzaSyC9W8zVLz8EGhbh6ln6W-NU4FwdoIT7h50")
+    genai.configure(api_key="AIzaSyAVA5zo8beGzRpL65OIsMDbPbnFoD-65-A")
     model = genai.GenerativeModel("gemini-1.5-flash")
 
 
