@@ -6,8 +6,6 @@ This app predicts the likelihood of developing Coronary Heart Disease (CHD) base
 # Features
 User-Friendly Interface: Input fields for age, sex, smoking habits, cholesterol levels, blood pressure, and glucose.
 Real-Time Prediction: Displays the probability of CHD risk and highlights whether the risk is low or high.
-Interactive Visualizations: Progress bars and charts visualize prediction probabilities.
-Example Dataset: Users can view a sample of the dataset for reference.
 Customizable Inputs: Supports normal and abnormal ranges for health parameters.
 Disclaimer Section: Educates users on the statistical nature of predictions and the need for professional medical consultation.
 
