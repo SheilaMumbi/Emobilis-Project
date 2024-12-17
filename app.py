@@ -53,7 +53,7 @@ def main():
      if st.button("Make Prediction"):
      # Check for the specific condition
       if tot_chol == 116 or dia_bp == 79:
-        st.success("Low Risk of CHD. Probability: 0.10")  # Customize the probability value
+        st.success("Low Risk of CHD. Probability: 0.10")
       else:
         # Make the model prediction
         prediction = model.predict(scaled_data)
