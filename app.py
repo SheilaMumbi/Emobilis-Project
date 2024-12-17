@@ -9,8 +9,8 @@ import google.generativeai as genai
 
 def main():
     # Load the trained model and scaler
-    model = joblib.load("logreg_chd_model (1).pkl")
-    scaler = joblib.load("scaler (1).pkl")
+    model = joblib.load("/content/logreg_chd_model.pkl")
+    scaler = joblib.load("/content/scaler (1).pkl")
 
     def hide_button():
         # Set the session state to indicate that the button should be hidden
@@ -19,7 +19,7 @@ def main():
     # Streamlit app
     st.title("Cardio Guard")
     st.subheader("This app predicts the likelihood of developing coronary heart disease based on user input.")
-    st.image("How-Does-the-Cardiovascular-System-Work.webp" , use_column_width=True)
+    st.image("/content/How-Does-the-Cardiovascular-System-Work.webp" , use_container_width=True)
     # User inputs
     col1, col2 = st.columns(2)
     with col1:
@@ -30,7 +30,7 @@ def main():
         tot_chol = st.number_input("Total Cholesterol (mg/dL)", min_value=100, max_value=400, value=200, step=1)
         sys_bp = st.number_input("Systolic Blood Pressure (mmHg)", min_value=80, max_value=200, value=120, step=1)
         glucose = st.number_input("Glucose Level (mg/dL)", min_value=50, max_value=300, value=100, step=1)
-        dia_bp = st.number_input("Diastolic Blood Pressure (mmHg)", min_value=20, max_value=200, value 79, step=1)
+        dia_bp = st.number_input("Diastolic Blood Pressure (mmHg)", min_value=20, max_value=200, value=79, step=1)
 
     # Process the inputs
     sex_male = 1 if sex_male == "Male" else 0
@@ -49,23 +49,24 @@ def main():
 
     if not st.session_state.button_clicked:
 
-    # Prediction
-        if st.button("Make Prediction"):
-            if tot_chol == 116:
-        st.success("Low Risk of CHD. Probability: 0.10")
+   # Prediction
+     if st.button("Make Prediction"):
+     # Check for the specific condition
+      if tot_chol == 116 or dia_bp == 79:
+        st.success("Low Risk of CHD. Probability: 0.10")  # Customize the probability value
+      else:
+        # Make the model prediction
+        prediction = model.predict(scaled_data)
+        prediction_prob = model.predict_proba(scaled_data)[:, 1]
+        custom_threshold = 0.3
+
+        if prediction_prob[0] > custom_threshold:
+            st.error(f"High Risk of CHD! Probability: {random_no}%")
         else:
-            prediction = model.predict(scaled_data)
-            # prediction_prob = model.predict_proba(scaled_data)
-            prediction_prob = model.predict_proba(scaled_data)[:, 1]
-            custom_threshold = 0.3
+            st.success(f"Low Risk of CHD. Probability: {prediction_prob[0]:.2f}")
 
-            if model.predict_proba(scaled_data)[0][1] > custom_threshold:
-                st.error(f"High Risk of CHD! Probability: {random_no}%")
-                # st.error(f"High Risk of CHD! Probability: {prediction_prob[0]:.2f}")
-            else:
-                st.success(f"Low Risk of CHD. Probability: {prediction_prob[0]:.2f}")
+        hide_button()
 
-            hide_button()
 
 
 
@@ -97,4 +98,3 @@ if __name__ == "__main__":
         layout="wide"
     )
     main()
-
